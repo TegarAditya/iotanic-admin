@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('latitude');
             $table->string('longitude');
-            $table->string('area');
+            $table->string('area')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

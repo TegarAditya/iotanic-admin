@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tresholds', function (Blueprint $table) {
+        Schema::create('thresholds', function (Blueprint $table) {
             $table->id();
             $table->string('public_id')->nullable();
             $table->foreignIdFor(PlantVariety::class);
