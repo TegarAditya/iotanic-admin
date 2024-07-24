@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('public_id')->nullable();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->string('image');
             $table->timestamps();
             $table->softDeletes();
         });

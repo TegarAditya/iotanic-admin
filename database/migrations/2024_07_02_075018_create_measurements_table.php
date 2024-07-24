@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Land;
+use App\Models\Period;
 use App\Models\PlantVariety;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(PlantVariety::class);
             $table->foreignIdFor(Land::class);
+            $table->foreignIdFor(Period::class);
             $table->string('public_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

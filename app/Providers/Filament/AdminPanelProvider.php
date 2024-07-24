@@ -2,10 +2,14 @@
 
 namespace App\Providers\Filament;
 
+use BezhanSalleh\FilamentShield\Facades\FilamentShield;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
+use Filament\Pages\Auth\Login;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -17,6 +21,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
+use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -26,12 +33,14 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('/')
-            ->login()
+            ->login(Login::class)
+            ->passwordReset()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Emerald,
             ])
             ->font('Plus Jakarta Sans')
-            ->brandLogo(asset('img/logo.png'))
+            ->brandLogo(asset('img/logo-light.png'))
+            ->darkModeBrandLogo(asset('img/logo-dark.png'))
             ->brandLogoHeight('40px')
             ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -43,6 +52,16 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Data Pengguna'),
+                NavigationGroup::make()
+                    ->label('Data Master'),
+                NavigationGroup::make()
+                    ->label('Settings'),
+                NavigationGroup::make()
+                    ->label('Pelindung'),
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -57,6 +76,17 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->authGuard('web')
+            ->plugins([
+                BreezyCore::make()
+                    ->myProfile(
+                        hasAvatars: false,
+                    )
+                    ->enableTwoFactorAuthentication(),
+                FilamentBackgroundsPlugin::make(),
+                FilamentShieldPlugin::make(),
+                FilamentUsersPlugin::make(),
             ]);
     }
 }

@@ -1766,23 +1766,6 @@ namespace Illuminate\Support\Facades {
             /**
      * 
      *
-     * @method static \Illuminate\Contracts\Auth\Authenticatable|false loginUsingId(mixed $id, bool $remember = false)
-     * @method static bool viaRemember()
-     * @method static \Symfony\Component\HttpFoundation\Response|null basic(string $field = 'email', array $extraConditions = [])
-     * @method static \Symfony\Component\HttpFoundation\Response|null onceBasic(string $field = 'email', array $extraConditions = [])
-     * @method static bool attemptWhen(array $credentials = [], array|callable|null $callbacks = null, bool $remember = false)
-     * @method static void logoutCurrentDevice()
-     * @method static \Illuminate\Contracts\Auth\Authenticatable|null logoutOtherDevices(string $password)
-     * @method static void attempting(mixed $callback)
-     * @method static string getName()
-     * @method static string getRecallerName()
-     * @method static \Illuminate\Auth\SessionGuard setRememberDuration(int $minutes)
-     * @method static \Illuminate\Contracts\Cookie\QueueingFactory getCookieJar()
-     * @method static void setCookieJar(\Illuminate\Contracts\Cookie\QueueingFactory $cookie)
-     * @method static \Illuminate\Contracts\Events\Dispatcher getDispatcher()
-     * @method static void setDispatcher(\Illuminate\Contracts\Events\Dispatcher $events)
-     * @method static \Illuminate\Contracts\Session\Session getSession()
-     * @method static \Illuminate\Support\Timebox getTimebox()
      * @see \Illuminate\Auth\AuthManager
      * @see \Illuminate\Auth\SessionGuard
      */        class Auth {
@@ -1964,262 +1947,358 @@ namespace Illuminate\Support\Facades {
                         return $instance->getDefaultUserProvider();
         }
                     /**
+         * Log a user into the application without firing the Login event.
+         *
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @return void 
+         * @static 
+         */        public static function quietLogin($user)
+        {
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->quietLogin($user);
+        }
+                    /**
+         * Logout the user without updating remember_token
+         * and without firing the Logout event.
+         *
+         * @param void
+         * @return void 
+         * @static 
+         */        public static function quietLogout()
+        {
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->quietLogout();
+        }
+                    /**
          * Get the currently authenticated user.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Authenticatable|null 
+         * @return \App\Models\User|null 
          * @static 
          */        public static function user()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->user();
         }
                     /**
-         * Get the currently authenticated user or throws an exception.
+         * Get the ID for the currently authenticated user.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Authenticatable 
-         * @throws UserNotDefinedException
+         * @return int|string|null 
          * @static 
-         */        public static function userOrFail()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->userOrFail();
+         */        public static function id()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->id();
+        }
+                    /**
+         * Log a user into the application without sessions or cookies.
+         *
+         * @param array $credentials
+         * @return bool 
+         * @static 
+         */        public static function once($credentials = [])
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->once($credentials);
+        }
+                    /**
+         * Log the given user ID into the application without sessions or cookies.
+         *
+         * @param mixed $id
+         * @return \App\Models\User|false 
+         * @static 
+         */        public static function onceUsingId($id)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->onceUsingId($id);
         }
                     /**
          * Validate a user's credentials.
          *
+         * @param array $credentials
          * @return bool 
          * @static 
          */        public static function validate($credentials = [])
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->validate($credentials);
         }
                     /**
-         * Attempt to authenticate the user using the given credentials and return the token.
+         * Attempt to authenticate using HTTP Basic Auth.
          *
-         * @param bool $login
-         * @return bool|string 
+         * @param string $field
+         * @param array $extraConditions
+         * @return \Symfony\Component\HttpFoundation\Response|null 
+         * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
          * @static 
-         */        public static function attempt($credentials = [], $login = true)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->attempt($credentials, $login);
+         */        public static function basic($field = 'email', $extraConditions = [])
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->basic($field, $extraConditions);
         }
                     /**
-         * Create a token for a user.
+         * Perform a stateless HTTP Basic login attempt.
          *
-         * @return string 
+         * @param string $field
+         * @param array $extraConditions
+         * @return \Symfony\Component\HttpFoundation\Response|null 
+         * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
          * @static 
-         */        public static function login($user)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->login($user);
+         */        public static function onceBasic($field = 'email', $extraConditions = [])
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->onceBasic($field, $extraConditions);
         }
                     /**
-         * Logout the user, thus invalidating the token.
+         * Attempt to authenticate a user using the given credentials.
          *
-         * @param bool $forceForever
+         * @param array $credentials
+         * @param bool $remember
+         * @return bool 
+         * @static 
+         */        public static function attempt($credentials = [], $remember = false)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->attempt($credentials, $remember);
+        }
+                    /**
+         * Attempt to authenticate a user with credentials and additional callbacks.
+         *
+         * @param array $credentials
+         * @param array|callable|null $callbacks
+         * @param bool $remember
+         * @return bool 
+         * @static 
+         */        public static function attemptWhen($credentials = [], $callbacks = null, $remember = false)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->attemptWhen($credentials, $callbacks, $remember);
+        }
+                    /**
+         * Log the given user ID into the application.
+         *
+         * @param mixed $id
+         * @param bool $remember
+         * @return \App\Models\User|false 
+         * @static 
+         */        public static function loginUsingId($id, $remember = false)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->loginUsingId($id, $remember);
+        }
+                    /**
+         * Log a user into the application.
+         *
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @param bool $remember
          * @return void 
          * @static 
-         */        public static function logout($forceForever = false)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        $instance->logout($forceForever);
+         */        public static function login($user, $remember = false)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->login($user, $remember);
         }
                     /**
-         * Refresh the token.
+         * Log the user out of the application.
          *
-         * @param bool $forceForever
-         * @param bool $resetClaims
+         * @return void 
+         * @static 
+         */        public static function logout()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->logout();
+        }
+                    /**
+         * Log the user out of the application on their current device only.
+         * 
+         * This method does not cycle the "remember" token.
+         *
+         * @return void 
+         * @static 
+         */        public static function logoutCurrentDevice()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->logoutCurrentDevice();
+        }
+                    /**
+         * Invalidate other sessions for the current user.
+         * 
+         * The application must be using the AuthenticateSession middleware.
+         *
+         * @param string $password
+         * @return \App\Models\User|null 
+         * @throws \Illuminate\Auth\AuthenticationException
+         * @static 
+         */        public static function logoutOtherDevices($password)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->logoutOtherDevices($password);
+        }
+                    /**
+         * Register an authentication attempt event listener.
+         *
+         * @param mixed $callback
+         * @return void 
+         * @static 
+         */        public static function attempting($callback)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->attempting($callback);
+        }
+                    /**
+         * Get the last user we attempted to authenticate.
+         *
+         * @return \App\Models\User 
+         * @static 
+         */        public static function getLastAttempted()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->getLastAttempted();
+        }
+                    /**
+         * Get a unique identifier for the auth session value.
+         *
          * @return string 
          * @static 
-         */        public static function refresh($forceForever = false, $resetClaims = false)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->refresh($forceForever, $resetClaims);
+         */        public static function getName()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->getName();
         }
                     /**
-         * Invalidate the token.
+         * Get the name of the cookie used to store the "recaller".
          *
-         * @param bool $forceForever
-         * @return \PHPOpenSourceSaver\JWTAuth\JWT 
+         * @return string 
          * @static 
-         */        public static function invalidate($forceForever = false)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->invalidate($forceForever);
+         */        public static function getRecallerName()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->getRecallerName();
         }
                     /**
-         * Create a new token by User id.
-         *
-         * @return string|null 
-         * @static 
-         */        public static function tokenById($id)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->tokenById($id);
-        }
-                    /**
-         * Log a user into the application using their credentials.
+         * Determine if the user was authenticated via "remember me" cookie.
          *
          * @return bool 
          * @static 
-         */        public static function once($credentials = [])
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->once($credentials);
+         */        public static function viaRemember()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->viaRemember();
         }
                     /**
-         * Log the given User into the application.
+         * Set the number of minutes the remember me cookie should be valid for.
          *
-         * @return bool 
+         * @param int $minutes
+         * @return \Lab404\Impersonate\Guard\SessionGuard 
          * @static 
-         */        public static function onceUsingId($id)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->onceUsingId($id);
+         */        public static function setRememberDuration($minutes)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->setRememberDuration($minutes);
         }
                     /**
-         * Alias for onceUsingId.
+         * Get the cookie creator instance used by the guard.
          *
-         * @return bool 
+         * @return \Illuminate\Contracts\Cookie\QueueingFactory 
+         * @throws \RuntimeException
          * @static 
-         */        public static function byId($id)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->byId($id);
+         */        public static function getCookieJar()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->getCookieJar();
         }
                     /**
-         * Add any custom claims.
+         * Set the cookie creator instance used by the guard.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
+         * @param \Illuminate\Contracts\Cookie\QueueingFactory $cookie
+         * @return void 
          * @static 
-         */        public static function claims($claims)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->claims($claims);
+         */        public static function setCookieJar($cookie)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->setCookieJar($cookie);
         }
                     /**
-         * Get the raw Payload instance.
+         * Get the event dispatcher instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
+         * @return \Illuminate\Contracts\Events\Dispatcher 
          * @static 
-         */        public static function getPayload()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->getPayload();
+         */        public static function getDispatcher()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->getDispatcher();
         }
                     /**
-         * Alias for getPayload().
+         * Set the event dispatcher instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
+         * @param \Illuminate\Contracts\Events\Dispatcher $events
+         * @return void 
          * @static 
-         */        public static function payload()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->payload();
+         */        public static function setDispatcher($events)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->setDispatcher($events);
         }
                     /**
-         * Set the token.
+         * Get the session store used by the guard.
          *
-         * @param \PHPOpenSourceSaver\JWTAuth\Token|string $token
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
+         * @return \Illuminate\Contracts\Session\Session 
          * @static 
-         */        public static function setToken($token)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->setToken($token);
-        }
-                    /**
-         * Get the token ttl.
-         *
-         * @return int|null 
-         * @static 
-         */        public static function getTTL()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->getTTL();
-        }
-                    /**
-         * Set the token ttl.
-         *
-         * @param int|null $ttl
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
-         * @static 
-         */        public static function setTTL($ttl)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->setTTL($ttl);
-        }
-                    /**
-         * Get the user provider used by the guard.
-         *
-         * @return \PHPOpenSourceSaver\JWTAuth\UserProvider 
-         * @static 
-         */        public static function getProvider()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->getProvider();
-        }
-                    /**
-         * Set the user provider used by the guard.
-         *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
-         * @static 
-         */        public static function setProvider($provider)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->setProvider($provider);
+         */        public static function getSession()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->getSession();
         }
                     /**
          * Return the currently cached user.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Authenticatable|null 
+         * @return \App\Models\User|null 
          * @static 
          */        public static function getUser()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->getUser();
         }
                     /**
          * Set the current user.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @return \Lab404\Impersonate\Guard\SessionGuard 
          * @static 
          */        public static function setUser($user)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->setUser($user);
         }
                     /**
          * Get the current request instance.
          *
-         * @return \Request 
+         * @return \Symfony\Component\HttpFoundation\Request 
          * @static 
          */        public static function getRequest()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->getRequest();
         }
                     /**
          * Set the current request instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @return \Lab404\Impersonate\Guard\SessionGuard 
          * @static 
          */        public static function setRequest($request)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->setRequest($request);
         }
                     /**
-         * Get the last user we attempted to authenticate.
+         * Get the timebox instance used by the guard.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Authenticatable 
+         * @return \Illuminate\Support\Timebox 
          * @static 
-         */        public static function getLastAttempted()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->getLastAttempted();
+         */        public static function getTimebox()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->getTimebox();
         }
                     /**
          * Determine if the current user is authenticated. If not, throw an exception.
@@ -2228,8 +2307,8 @@ namespace Illuminate\Support\Facades {
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */        public static function authenticate()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->authenticate();
         }
                     /**
@@ -2238,8 +2317,8 @@ namespace Illuminate\Support\Facades {
          * @return bool 
          * @static 
          */        public static function hasUser()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->hasUser();
         }
                     /**
@@ -2248,8 +2327,8 @@ namespace Illuminate\Support\Facades {
          * @return bool 
          * @static 
          */        public static function check()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->check();
         }
                     /**
@@ -2258,40 +2337,40 @@ namespace Illuminate\Support\Facades {
          * @return bool 
          * @static 
          */        public static function guest()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->guest();
-        }
-                    /**
-         * Get the ID for the currently authenticated user.
-         *
-         * @return int|string|null 
-         * @static 
-         */        public static function id()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->id();
-        }
-                    /**
-         * Set the current user.
-         *
-         * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
-         * @static 
-         */        public static function guardHelperSetUser($user)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->guardHelperSetUser($user);
         }
                     /**
          * Forget the current user.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
+         * @return \Lab404\Impersonate\Guard\SessionGuard 
          * @static 
          */        public static function forgetUser()
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
                         return $instance->forgetUser();
+        }
+                    /**
+         * Get the user provider used by the guard.
+         *
+         * @return \Illuminate\Contracts\Auth\UserProvider 
+         * @static 
+         */        public static function getProvider()
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        return $instance->getProvider();
+        }
+                    /**
+         * Set the user provider used by the guard.
+         *
+         * @param \Illuminate\Contracts\Auth\UserProvider $provider
+         * @return void 
+         * @static 
+         */        public static function setProvider($provider)
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+                        $instance->setProvider($provider);
         }
                     /**
          * Register a custom macro.
@@ -2302,8 +2381,8 @@ namespace Illuminate\Support\Facades {
          * @return void 
          * @static 
          */        public static function macro($name, $macro)
-        {
-                        \PHPOpenSourceSaver\JWTAuth\JWTGuard::macro($name, $macro);
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        \Lab404\Impersonate\Guard\SessionGuard::macro($name, $macro);
         }
                     /**
          * Mix another object into the class.
@@ -2314,8 +2393,8 @@ namespace Illuminate\Support\Facades {
          * @throws \ReflectionException
          * @static 
          */        public static function mixin($mixin, $replace = true)
-        {
-                        \PHPOpenSourceSaver\JWTAuth\JWTGuard::mixin($mixin, $replace);
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        \Lab404\Impersonate\Guard\SessionGuard::mixin($mixin, $replace);
         }
                     /**
          * Checks if macro is registered.
@@ -2324,8 +2403,8 @@ namespace Illuminate\Support\Facades {
          * @return bool 
          * @static 
          */        public static function hasMacro($name)
-        {
-                        return \PHPOpenSourceSaver\JWTAuth\JWTGuard::hasMacro($name);
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        return \Lab404\Impersonate\Guard\SessionGuard::hasMacro($name);
         }
                     /**
          * Flush the existing macros.
@@ -2333,21 +2412,8 @@ namespace Illuminate\Support\Facades {
          * @return void 
          * @static 
          */        public static function flushMacros()
-        {
-                        \PHPOpenSourceSaver\JWTAuth\JWTGuard::flushMacros();
-        }
-                    /**
-         * Dynamically handle calls to the class.
-         *
-         * @param string $method
-         * @param array $parameters
-         * @return mixed 
-         * @throws \BadMethodCallException
-         * @static 
-         */        public static function macroCall($method, $parameters)
-        {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
-                        return $instance->macroCall($method, $parameters);
+        {            //Method inherited from \Illuminate\Auth\SessionGuard         
+                        \Lab404\Impersonate\Guard\SessionGuard::flushMacros();
         }
             }
             /**
@@ -14083,6 +14149,15 @@ namespace Illuminate\Support\Facades {
                         /** @var \Illuminate\Routing\Router $instance */
                         return $instance->macroCall($method, $parameters);
         }
+                    /**
+         * 
+         *
+         * @see \Lab404\Impersonate\ImpersonateServiceProvider::registerRoutesMacro()
+         * @static 
+         */        public static function impersonate()
+        {
+                        return \Illuminate\Routing\Router::impersonate();
+        }
             }
             /**
      * 
@@ -18037,6 +18112,164 @@ namespace AnourValar\EloquentSerialize\Facades {
             }
     }
 
+namespace BezhanSalleh\FilamentShield\Facades {
+            /**
+     * 
+     *
+     * @see \BezhanSalleh\FilamentShield\FilamentShield
+     */        class FilamentShield {
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function configurePermissionIdentifierUsing($callback)
+        {
+                        /** @var \BezhanSalleh\FilamentShield\FilamentShield $instance */
+                        return $instance->configurePermissionIdentifierUsing($callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function getPermissionIdentifier($resource)
+        {
+                        /** @var \BezhanSalleh\FilamentShield\FilamentShield $instance */
+                        return $instance->getPermissionIdentifier($resource);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function generateForResource($entity)
+        {
+                        /** @var \BezhanSalleh\FilamentShield\FilamentShield $instance */
+                        return $instance->generateForResource($entity);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function generateForPage($page)
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::generateForPage($page);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function generateForWidget($widget)
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::generateForWidget($widget);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function createRole($name = null)
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::createRole($name);
+        }
+                    /**
+         * Transform filament resources to key value pair for shield
+         *
+         * @static 
+         */        public static function getResources()
+        {
+                        /** @var \BezhanSalleh\FilamentShield\FilamentShield $instance */
+                        return $instance->getResources();
+        }
+                    /**
+         * Get the localized resource label
+         *
+         * @static 
+         */        public static function getLocalizedResourceLabel($entity)
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::getLocalizedResourceLabel($entity);
+        }
+                    /**
+         * Get the localized resource permission label
+         *
+         * @static 
+         */        public static function getLocalizedResourcePermissionLabel($permission)
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::getLocalizedResourcePermissionLabel($permission);
+        }
+                    /**
+         * Transform filament pages to key value pair for shield
+         *
+         * @static 
+         */        public static function getPages()
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::getPages();
+        }
+                    /**
+         * Get localized page label
+         *
+         * @static 
+         */        public static function getLocalizedPageLabel($page)
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::getLocalizedPageLabel($page);
+        }
+                    /**
+         * Transform filament widgets to key value pair for shield
+         *
+         * @static 
+         */        public static function getWidgets()
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::getWidgets();
+        }
+                    /**
+         * Get localized widget label
+         *
+         * @static 
+         */        public static function getLocalizedWidgetLabel($widget)
+        {
+                        return \BezhanSalleh\FilamentShield\FilamentShield::getLocalizedWidgetLabel($widget);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function getAllResourcePermissions()
+        {
+                        /** @var \BezhanSalleh\FilamentShield\FilamentShield $instance */
+                        return $instance->getAllResourcePermissions();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function getCustomPermissions()
+        {
+                        /** @var \BezhanSalleh\FilamentShield\FilamentShield $instance */
+                        return $instance->getCustomPermissions();
+        }
+                    /**
+         * 
+         *
+         * @template T
+         * @param \BezhanSalleh\FilamentShield\T  | callable(): T  $value
+         * @param array<string, mixed> $namedInjections
+         * @param array<string, mixed> $typedInjections
+         * @return \BezhanSalleh\FilamentShield\T 
+         * @static 
+         */        public static function evaluate($value, $namedInjections = [], $typedInjections = [])
+        {
+                        /** @var \BezhanSalleh\FilamentShield\FilamentShield $instance */
+                        return $instance->evaluate($value, $namedInjections, $typedInjections);
+        }
+            }
+    }
+
+namespace Jeffgreco13\FilamentBreezy\Facades {
+            /**
+     * 
+     *
+     * @see \Jeffgreco13\FilamentBreezy\FilamentBreezy
+     */        class FilamentBreezy {
+            }
+    }
+
 namespace Livewire {
             /**
      * 
@@ -18411,6 +18644,193 @@ namespace Livewire {
         {
                         /** @var \Livewire\LivewireManager $instance */
                         return $instance->originalMethod();
+        }
+            }
+    }
+
+namespace Mastani\GoogleStaticMap {
+            /**
+     * 
+     *
+     */        class GoogleStaticMapFacade {
+                    /**
+         * Set signing secret key.
+         *
+         * @param string $apiSecret
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setSecret($apiSecret)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setSecret($apiSecret);
+        }
+                    /**
+         * Set map center with address.
+         *
+         * @param string $location
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setCenter($location)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setCenter($location);
+        }
+                    /**
+         * Set map center with latitude and longitude.
+         *
+         * @param float $latitude
+         * @param float $longitude
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setCenterLatLng($latitude, $longitude)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setCenterLatLng($latitude, $longitude);
+        }
+                    /**
+         * Set map zoom.
+         *
+         * @param int $zoom
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setZoom($zoom)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setZoom($zoom);
+        }
+                    /**
+         * Set map scale.
+         *
+         * @param int $scale
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setScale($scale)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setScale($scale);
+        }
+                    /**
+         * Set map size.
+         *
+         * @param int $width
+         * @param int $height
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setSize($width, $height)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setSize($width, $height);
+        }
+                    /**
+         * Set map type.
+         *
+         * @param string $mapType
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setMapType($mapType)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setMapType($mapType);
+        }
+                    /**
+         * Set map ID.
+         *
+         * @param string $mapId
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setMapId($mapId)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setMapId($mapId);
+        }
+                    /**
+         * Set map image format.
+         *
+         * @param string $format
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function setFormat($format)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->setFormat($format);
+        }
+                    /**
+         * Add marker to map.
+         *
+         * @param string $center
+         * @param string $label
+         * @param string $color
+         * @param string $size
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function addMarker($center, $label, $color, $size = 'small')
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->addMarker($center, $label, $color, $size);
+        }
+                    /**
+         * Add marker to map with latitude and longitude.
+         *
+         * @param float $latitude
+         * @param float $longitude
+         * @param string $label
+         * @param string $color
+         * @param string $size
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function addMarkerLatLng($latitude, $longitude, $label, $color, $size = 'small')
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->addMarkerLatLng($latitude, $longitude, $label, $color, $size);
+        }
+                    /**
+         * Add custom marker to map.
+         *
+         * @param string $center
+         * @param string $icon
+         * @param bool $shadow
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function addMarkerWithIcon($center, $icon, $shadow = false)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->addMarkerWithIcon($center, $icon, $shadow);
+        }
+                    /**
+         * Add marker to map with latitude and longitude.
+         *
+         * @param float $latitude
+         * @param float $longitude
+         * @param string $icon
+         * @param bool $shadow
+         * @return \Mastani\GoogleStaticMap\GoogleStaticMap 
+         * @static 
+         */        public static function addMarkerLatLngWithIcon($latitude, $longitude, $icon, $shadow = false)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->addMarkerLatLngWithIcon($latitude, $longitude, $icon, $shadow);
+        }
+                    /**
+         * Make url string.
+         *
+         * @return string 
+         * @static 
+         */        public static function make()
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->make();
+        }
+                    /**
+         * Download map image.
+         *
+         * @param string $path
+         * @param int $name_length
+         * @return string 
+         * @static 
+         */        public static function download($path = './', $name_length = 10)
+        {
+                        /** @var \Mastani\GoogleStaticMap\GoogleStaticMap $instance */
+                        return $instance->download($path, $name_length);
         }
             }
     }
@@ -18977,6 +19397,59 @@ namespace Illuminate\Http {
             }
     }
 
+namespace Illuminate\Routing {
+            /**
+     * 
+     *
+     * @mixin \Illuminate\Routing\RouteRegistrar
+     */        class Router {
+                    /**
+         * 
+         *
+         * @see \Lab404\Impersonate\ImpersonateServiceProvider::registerRoutesMacro()
+         * @static 
+         */        public static function impersonate()
+        {
+                        return \Illuminate\Routing\Router::impersonate();
+        }
+            }
+            /**
+     * 
+     *
+     */        class Route {
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportLazyLoading\SupportLazyLoading::registerRouteMacro()
+         * @param mixed $enabled
+         * @static 
+         */        public static function lazy($enabled = true)
+        {
+                        return \Illuminate\Routing\Route::lazy($enabled);
+        }
+                    /**
+         * 
+         *
+         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
+         * @param mixed $roles
+         * @static 
+         */        public static function role($roles = [])
+        {
+                        return \Illuminate\Routing\Route::role($roles);
+        }
+                    /**
+         * 
+         *
+         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
+         * @param mixed $permissions
+         * @static 
+         */        public static function permission($permissions = [])
+        {
+                        return \Illuminate\Routing\Route::permission($permissions);
+        }
+            }
+    }
+
 namespace Illuminate\Database\Query {
             /**
      * 
@@ -19239,20 +19712,150 @@ namespace Illuminate\Database\Eloquent\Relations {
             }
     }
 
-namespace Illuminate\Routing {
+namespace Illuminate\Testing {
             /**
      * 
      *
-     */        class Route {
+     * @mixin \Illuminate\Http\Response
+     */        class TestResponse {
                     /**
          * 
          *
-         * @see \Livewire\Features\SupportLazyLoading\SupportLazyLoading::registerRouteMacro()
-         * @param mixed $enabled
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLValidationError()
+         * @param string $key
+         * @param string|null $message
+         * @return \Illuminate\Testing\TestResponse 
          * @static 
-         */        public static function lazy($enabled = true)
+         */        public static function assertGraphQLValidationError($key, $message)
         {
-                        return \Illuminate\Routing\Route::lazy($enabled);
+                        return \Illuminate\Testing\TestResponse::assertGraphQLValidationError($key, $message);
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLValidationKeys()
+         * @param array $keys
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLValidationKeys($keys)
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLValidationKeys($keys);
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLValidationPasses()
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLValidationPasses()
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLValidationPasses();
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLError()
+         * @param \Throwable $error
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLError($error)
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLError($error);
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLErrorMessage()
+         * @param string $message
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLErrorMessage($message)
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLErrorMessage($message);
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLDebugMessage()
+         * @param string $message
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLDebugMessage($message)
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLDebugMessage($message);
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLErrorFree()
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLErrorFree()
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLErrorFree();
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLSubscriptionAuthorized()
+         * @param \PHPUnit\Framework\TestCase $testClassInstance
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLSubscriptionAuthorized($testClassInstance)
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLSubscriptionAuthorized($testClassInstance);
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLSubscriptionNotAuthorized()
+         * @param \PHPUnit\Framework\TestCase $testClassInstance
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLSubscriptionNotAuthorized($testClassInstance)
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLSubscriptionNotAuthorized($testClassInstance);
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::graphQLSubscriptionMock()
+         * @return \Mockery\MockInterface 
+         * @static 
+         */        public static function graphQLSubscriptionMock()
+        {
+                        return \Illuminate\Testing\TestResponse::graphQLSubscriptionMock();
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::graphQLSubscriptionChannelName()
+         * @return string 
+         * @static 
+         */        public static function graphQLSubscriptionChannelName()
+        {
+                        return \Illuminate\Testing\TestResponse::graphQLSubscriptionChannelName();
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLBroadcasted()
+         * @param array $data
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLBroadcasted($data)
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLBroadcasted($data);
+        }
+                    /**
+         * 
+         *
+         * @see \Nuwave\Lighthouse\Testing\TestResponseMixin::assertGraphQLNotBroadcasted()
+         * @return \Illuminate\Testing\TestResponse 
+         * @static 
+         */        public static function assertGraphQLNotBroadcasted()
+        {
+                        return \Illuminate\Testing\TestResponse::assertGraphQLNotBroadcasted();
         }
             }
     }
@@ -23563,6 +24166,15 @@ namespace  {
                                 return \Illuminate\Database\Eloquent\Builder::getRelationWithoutConstraintsProxy($relation);
             }
                             /**
+             * 
+             *
+             * @see \Essa\APIToolKit\MacroServiceProvider::boot()
+             * @static 
+             */            public static function dynamicPaginate()
+            {
+                                return \Illuminate\Database\Eloquent\Builder::dynamicPaginate();
+            }
+                            /**
              * Set the columns to be selected.
              *
              * @param array|mixed $columns
@@ -25700,7 +26312,11 @@ namespace  {
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
             class EloquentSerialize extends \AnourValar\EloquentSerialize\Facades\EloquentSerializeFacade {}
+            class FilamentShield extends \BezhanSalleh\FilamentShield\Facades\FilamentShield {}
+            class Otp extends \Ichtrojan\Otp\Otp {}
+            class FilamentBreezy extends \Jeffgreco13\FilamentBreezy\Facades\FilamentBreezy {}
             class Livewire extends \Livewire\Livewire {}
+            class GoogleStaticMap extends \Mastani\GoogleStaticMap\GoogleStaticMapFacade {}
             class JWTAuth extends \PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth {}
             class JWTFactory extends \PHPOpenSourceSaver\JWTAuth\Facades\JWTFactory {}
     }

@@ -4,15 +4,30 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/rossbearman/simple-qrcode"
+        }
+    ],
     "require": {
         "php": "^8.2",
+        "bezhansalleh/filament-shield": "^3.2",
+        "cheesegrits/filament-google-maps": "^3.0",
         "filament/filament": "^3.2",
+        "hidehalo/nanoid-php": "^1.1",
+        "ichtrojan/laravel-otp": "^2.0",
+        "jeffgreco13/filament-breezy": "^2.4",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "mll-lab/laravel-graphiql": "^3.2",
+        "mongodb/laravel-mongodb": "^4.7",
         "nuwave/lighthouse": "^6.38",
-        "php-open-source-saver/jwt-auth": "^2.4"
+        "php-open-source-saver/jwt-auth": "^2.4",
+        "simplesoftwareio/simple-qrcode": "dev-baconqrcode-v3",
+        "swisnl/filament-backgrounds": "^1.1",
+        "tomatophp/filament-users": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",
