@@ -23,4 +23,4 @@ RUN install-php-extensions \
 
 COPY . /app
 
-ENTRYPOINT ["php", "artisan", "octane:frankenphp", "--workers=4", "--port=8000"]
+ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
