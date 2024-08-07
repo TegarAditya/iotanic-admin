@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 11.13.0.
+ * Generated for Laravel 11.16.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -566,6 +566,7 @@ namespace Illuminate\Support\Facades {
          * @param string $abstract
          * @param array $parameters
          * @return mixed 
+         * @throws \Illuminate\Contracts\Container\BindingResolutionException
          * @static 
          */        public static function make($abstract, $parameters = [])
         {
@@ -1015,6 +1016,18 @@ namespace Illuminate\Support\Facades {
                         return $instance->when($concrete);
         }
                     /**
+         * Define a contextual binding based on an attribute.
+         *
+         * @param string $attribute
+         * @param \Closure $handler
+         * @return void 
+         * @static 
+         */        public static function whenHasAttribute($attribute, $handler)
+        {            //Method inherited from \Illuminate\Container\Container         
+                        /** @var \Illuminate\Foundation\Application $instance */
+                        $instance->whenHasAttribute($attribute, $handler);
+        }
+                    /**
          * Returns true if the container can return an entry for the given identifier.
          * 
          * Returns false otherwise.
@@ -1385,6 +1398,18 @@ namespace Illuminate\Support\Facades {
         {            //Method inherited from \Illuminate\Container\Container         
                         /** @var \Illuminate\Foundation\Application $instance */
                         $instance->afterResolving($abstract, $callback);
+        }
+                    /**
+         * Register a new after resolving attribute callback for all types.
+         *
+         * @param string $attribute
+         * @param \Closure $callback
+         * @return void 
+         * @static 
+         */        public static function afterResolvingAttribute($attribute, $callback)
+        {            //Method inherited from \Illuminate\Container\Container         
+                        /** @var \Illuminate\Foundation\Application $instance */
+                        $instance->afterResolvingAttribute($attribute, $callback);
         }
                     /**
          * Get the container's bindings.
@@ -1766,6 +1791,23 @@ namespace Illuminate\Support\Facades {
             /**
      * 
      *
+     * @method static \Illuminate\Contracts\Auth\Authenticatable|false loginUsingId(mixed $id, bool $remember = false)
+     * @method static bool viaRemember()
+     * @method static \Symfony\Component\HttpFoundation\Response|null basic(string $field = 'email', array $extraConditions = [])
+     * @method static \Symfony\Component\HttpFoundation\Response|null onceBasic(string $field = 'email', array $extraConditions = [])
+     * @method static bool attemptWhen(array $credentials = [], array|callable|null $callbacks = null, bool $remember = false)
+     * @method static void logoutCurrentDevice()
+     * @method static \Illuminate\Contracts\Auth\Authenticatable|null logoutOtherDevices(string $password)
+     * @method static void attempting(mixed $callback)
+     * @method static string getName()
+     * @method static string getRecallerName()
+     * @method static \Illuminate\Auth\SessionGuard setRememberDuration(int $minutes)
+     * @method static \Illuminate\Contracts\Cookie\QueueingFactory getCookieJar()
+     * @method static void setCookieJar(\Illuminate\Contracts\Cookie\QueueingFactory $cookie)
+     * @method static \Illuminate\Contracts\Events\Dispatcher getDispatcher()
+     * @method static void setDispatcher(\Illuminate\Contracts\Events\Dispatcher $events)
+     * @method static \Illuminate\Contracts\Session\Session getSession()
+     * @method static \Illuminate\Support\Timebox getTimebox()
      * @see \Illuminate\Auth\AuthManager
      * @see \Illuminate\Auth\SessionGuard
      */        class Auth {
@@ -1947,358 +1989,272 @@ namespace Illuminate\Support\Facades {
                         return $instance->getDefaultUserProvider();
         }
                     /**
-         * Log a user into the application without firing the Login event.
-         *
-         * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @return void 
-         * @static 
-         */        public static function quietLogin($user)
-        {
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->quietLogin($user);
-        }
-                    /**
-         * Logout the user without updating remember_token
-         * and without firing the Logout event.
-         *
-         * @param void
-         * @return void 
-         * @static 
-         */        public static function quietLogout()
-        {
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->quietLogout();
-        }
-                    /**
          * Get the currently authenticated user.
          *
-         * @return \App\Models\User|null 
+         * @return \PHPOpenSourceSaver\JWTAuth\Authenticatable|null 
          * @static 
          */        public static function user()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->user();
         }
                     /**
-         * Get the ID for the currently authenticated user.
+         * 
          *
          * @return int|string|null 
          * @static 
-         */        public static function id()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->id();
+         */        public static function getUserId()
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->getUserId();
         }
                     /**
-         * Log a user into the application without sessions or cookies.
+         * Get the currently authenticated user or throws an exception.
          *
-         * @param array $credentials
-         * @return bool 
+         * @return \PHPOpenSourceSaver\JWTAuth\Authenticatable 
+         * @throws UserNotDefinedException
          * @static 
-         */        public static function once($credentials = [])
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->once($credentials);
-        }
-                    /**
-         * Log the given user ID into the application without sessions or cookies.
-         *
-         * @param mixed $id
-         * @return \App\Models\User|false 
-         * @static 
-         */        public static function onceUsingId($id)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->onceUsingId($id);
+         */        public static function userOrFail()
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->userOrFail();
         }
                     /**
          * Validate a user's credentials.
          *
-         * @param array $credentials
          * @return bool 
          * @static 
          */        public static function validate($credentials = [])
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->validate($credentials);
         }
                     /**
-         * Attempt to authenticate using HTTP Basic Auth.
+         * Attempt to authenticate the user using the given credentials and return the token.
          *
-         * @param string $field
-         * @param array $extraConditions
-         * @return \Symfony\Component\HttpFoundation\Response|null 
-         * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
+         * @param bool $login
+         * @return bool|string 
          * @static 
-         */        public static function basic($field = 'email', $extraConditions = [])
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->basic($field, $extraConditions);
+         */        public static function attempt($credentials = [], $login = true)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->attempt($credentials, $login);
         }
                     /**
-         * Perform a stateless HTTP Basic login attempt.
-         *
-         * @param string $field
-         * @param array $extraConditions
-         * @return \Symfony\Component\HttpFoundation\Response|null 
-         * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
-         * @static 
-         */        public static function onceBasic($field = 'email', $extraConditions = [])
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->onceBasic($field, $extraConditions);
-        }
-                    /**
-         * Attempt to authenticate a user using the given credentials.
-         *
-         * @param array $credentials
-         * @param bool $remember
-         * @return bool 
-         * @static 
-         */        public static function attempt($credentials = [], $remember = false)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->attempt($credentials, $remember);
-        }
-                    /**
-         * Attempt to authenticate a user with credentials and additional callbacks.
-         *
-         * @param array $credentials
-         * @param array|callable|null $callbacks
-         * @param bool $remember
-         * @return bool 
-         * @static 
-         */        public static function attemptWhen($credentials = [], $callbacks = null, $remember = false)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->attemptWhen($credentials, $callbacks, $remember);
-        }
-                    /**
-         * Log the given user ID into the application.
-         *
-         * @param mixed $id
-         * @param bool $remember
-         * @return \App\Models\User|false 
-         * @static 
-         */        public static function loginUsingId($id, $remember = false)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->loginUsingId($id, $remember);
-        }
-                    /**
-         * Log a user into the application.
-         *
-         * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @param bool $remember
-         * @return void 
-         * @static 
-         */        public static function login($user, $remember = false)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->login($user, $remember);
-        }
-                    /**
-         * Log the user out of the application.
-         *
-         * @return void 
-         * @static 
-         */        public static function logout()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->logout();
-        }
-                    /**
-         * Log the user out of the application on their current device only.
-         * 
-         * This method does not cycle the "remember" token.
-         *
-         * @return void 
-         * @static 
-         */        public static function logoutCurrentDevice()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->logoutCurrentDevice();
-        }
-                    /**
-         * Invalidate other sessions for the current user.
-         * 
-         * The application must be using the AuthenticateSession middleware.
-         *
-         * @param string $password
-         * @return \App\Models\User|null 
-         * @throws \Illuminate\Auth\AuthenticationException
-         * @static 
-         */        public static function logoutOtherDevices($password)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->logoutOtherDevices($password);
-        }
-                    /**
-         * Register an authentication attempt event listener.
-         *
-         * @param mixed $callback
-         * @return void 
-         * @static 
-         */        public static function attempting($callback)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->attempting($callback);
-        }
-                    /**
-         * Get the last user we attempted to authenticate.
-         *
-         * @return \App\Models\User 
-         * @static 
-         */        public static function getLastAttempted()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->getLastAttempted();
-        }
-                    /**
-         * Get a unique identifier for the auth session value.
+         * Create a token for a user.
          *
          * @return string 
          * @static 
-         */        public static function getName()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->getName();
+         */        public static function login($user)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->login($user);
         }
                     /**
-         * Get the name of the cookie used to store the "recaller".
+         * Logout the user, thus invalidating the token.
          *
+         * @param bool $forceForever
+         * @return void 
+         * @static 
+         */        public static function logout($forceForever = false)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        $instance->logout($forceForever);
+        }
+                    /**
+         * Refresh the token.
+         *
+         * @param bool $forceForever
+         * @param bool $resetClaims
          * @return string 
          * @static 
-         */        public static function getRecallerName()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->getRecallerName();
+         */        public static function refresh($forceForever = false, $resetClaims = false)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->refresh($forceForever, $resetClaims);
         }
                     /**
-         * Determine if the user was authenticated via "remember me" cookie.
+         * Invalidate the token.
+         *
+         * @param bool $forceForever
+         * @return \PHPOpenSourceSaver\JWTAuth\JWT 
+         * @static 
+         */        public static function invalidate($forceForever = false)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->invalidate($forceForever);
+        }
+                    /**
+         * Create a new token by User id.
+         *
+         * @return string|null 
+         * @static 
+         */        public static function tokenById($id)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->tokenById($id);
+        }
+                    /**
+         * Log a user into the application using their credentials.
          *
          * @return bool 
          * @static 
-         */        public static function viaRemember()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->viaRemember();
+         */        public static function once($credentials = [])
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->once($credentials);
         }
                     /**
-         * Set the number of minutes the remember me cookie should be valid for.
+         * Log the given User into the application.
          *
-         * @param int $minutes
-         * @return \Lab404\Impersonate\Guard\SessionGuard 
+         * @return bool 
          * @static 
-         */        public static function setRememberDuration($minutes)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->setRememberDuration($minutes);
+         */        public static function onceUsingId($id)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->onceUsingId($id);
         }
                     /**
-         * Get the cookie creator instance used by the guard.
+         * Alias for onceUsingId.
          *
-         * @return \Illuminate\Contracts\Cookie\QueueingFactory 
-         * @throws \RuntimeException
+         * @return bool 
          * @static 
-         */        public static function getCookieJar()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->getCookieJar();
+         */        public static function byId($id)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->byId($id);
         }
                     /**
-         * Set the cookie creator instance used by the guard.
+         * Add any custom claims.
          *
-         * @param \Illuminate\Contracts\Cookie\QueueingFactory $cookie
-         * @return void 
+         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
          * @static 
-         */        public static function setCookieJar($cookie)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->setCookieJar($cookie);
+         */        public static function claims($claims)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->claims($claims);
         }
                     /**
-         * Get the event dispatcher instance.
+         * Get the raw Payload instance.
          *
-         * @return \Illuminate\Contracts\Events\Dispatcher 
+         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
          * @static 
-         */        public static function getDispatcher()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->getDispatcher();
+         */        public static function getPayload()
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->getPayload();
         }
                     /**
-         * Set the event dispatcher instance.
+         * Alias for getPayload().
          *
-         * @param \Illuminate\Contracts\Events\Dispatcher $events
-         * @return void 
+         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
          * @static 
-         */        public static function setDispatcher($events)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->setDispatcher($events);
+         */        public static function payload()
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->payload();
         }
                     /**
-         * Get the session store used by the guard.
+         * Set the token.
          *
-         * @return \Illuminate\Contracts\Session\Session 
+         * @param \PHPOpenSourceSaver\JWTAuth\Token|string $token
+         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
          * @static 
-         */        public static function getSession()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->getSession();
+         */        public static function setToken($token)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->setToken($token);
+        }
+                    /**
+         * Get the token ttl.
+         *
+         * @return int|null 
+         * @static 
+         */        public static function getTTL()
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->getTTL();
+        }
+                    /**
+         * Set the token ttl.
+         *
+         * @param int|null $ttl
+         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
+         * @static 
+         */        public static function setTTL($ttl)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->setTTL($ttl);
+        }
+                    /**
+         * Get the user provider used by the guard.
+         *
+         * @return \PHPOpenSourceSaver\JWTAuth\UserProvider 
+         * @static 
+         */        public static function getProvider()
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->getProvider();
+        }
+                    /**
+         * Set the user provider used by the guard.
+         *
+         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
+         * @static 
+         */        public static function setProvider($provider)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->setProvider($provider);
         }
                     /**
          * Return the currently cached user.
          *
-         * @return \App\Models\User|null 
+         * @return \PHPOpenSourceSaver\JWTAuth\Authenticatable|null 
          * @static 
          */        public static function getUser()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->getUser();
         }
                     /**
          * Set the current user.
          *
-         * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @return \Lab404\Impersonate\Guard\SessionGuard 
+         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
          * @static 
          */        public static function setUser($user)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->setUser($user);
         }
                     /**
          * Get the current request instance.
          *
-         * @return \Symfony\Component\HttpFoundation\Request 
+         * @return \Request 
          * @static 
          */        public static function getRequest()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->getRequest();
         }
                     /**
          * Set the current request instance.
          *
-         * @param \Symfony\Component\HttpFoundation\Request $request
-         * @return \Lab404\Impersonate\Guard\SessionGuard 
+         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
          * @static 
          */        public static function setRequest($request)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->setRequest($request);
         }
                     /**
-         * Get the timebox instance used by the guard.
+         * Get the last user we attempted to authenticate.
          *
-         * @return \Illuminate\Support\Timebox 
+         * @return \PHPOpenSourceSaver\JWTAuth\Authenticatable 
          * @static 
-         */        public static function getTimebox()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->getTimebox();
+         */        public static function getLastAttempted()
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->getLastAttempted();
         }
                     /**
          * Determine if the current user is authenticated. If not, throw an exception.
@@ -2307,8 +2263,8 @@ namespace Illuminate\Support\Facades {
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */        public static function authenticate()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->authenticate();
         }
                     /**
@@ -2317,8 +2273,8 @@ namespace Illuminate\Support\Facades {
          * @return bool 
          * @static 
          */        public static function hasUser()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->hasUser();
         }
                     /**
@@ -2327,8 +2283,8 @@ namespace Illuminate\Support\Facades {
          * @return bool 
          * @static 
          */        public static function check()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->check();
         }
                     /**
@@ -2337,40 +2293,40 @@ namespace Illuminate\Support\Facades {
          * @return bool 
          * @static 
          */        public static function guest()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->guest();
+        }
+                    /**
+         * Get the ID for the currently authenticated user.
+         *
+         * @return int|string|null 
+         * @static 
+         */        public static function id()
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->id();
+        }
+                    /**
+         * Set the current user.
+         *
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
+         * @static 
+         */        public static function guardHelperSetUser($user)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->guardHelperSetUser($user);
         }
                     /**
          * Forget the current user.
          *
-         * @return \Lab404\Impersonate\Guard\SessionGuard 
+         * @return \PHPOpenSourceSaver\JWTAuth\JWTGuard 
          * @static 
          */        public static function forgetUser()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
                         return $instance->forgetUser();
-        }
-                    /**
-         * Get the user provider used by the guard.
-         *
-         * @return \Illuminate\Contracts\Auth\UserProvider 
-         * @static 
-         */        public static function getProvider()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        return $instance->getProvider();
-        }
-                    /**
-         * Set the user provider used by the guard.
-         *
-         * @param \Illuminate\Contracts\Auth\UserProvider $provider
-         * @return void 
-         * @static 
-         */        public static function setProvider($provider)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        /** @var \Lab404\Impersonate\Guard\SessionGuard $instance */
-                        $instance->setProvider($provider);
         }
                     /**
          * Register a custom macro.
@@ -2381,8 +2337,8 @@ namespace Illuminate\Support\Facades {
          * @return void 
          * @static 
          */        public static function macro($name, $macro)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        \Lab404\Impersonate\Guard\SessionGuard::macro($name, $macro);
+        {
+                        \PHPOpenSourceSaver\JWTAuth\JWTGuard::macro($name, $macro);
         }
                     /**
          * Mix another object into the class.
@@ -2393,8 +2349,8 @@ namespace Illuminate\Support\Facades {
          * @throws \ReflectionException
          * @static 
          */        public static function mixin($mixin, $replace = true)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        \Lab404\Impersonate\Guard\SessionGuard::mixin($mixin, $replace);
+        {
+                        \PHPOpenSourceSaver\JWTAuth\JWTGuard::mixin($mixin, $replace);
         }
                     /**
          * Checks if macro is registered.
@@ -2403,8 +2359,8 @@ namespace Illuminate\Support\Facades {
          * @return bool 
          * @static 
          */        public static function hasMacro($name)
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        return \Lab404\Impersonate\Guard\SessionGuard::hasMacro($name);
+        {
+                        return \PHPOpenSourceSaver\JWTAuth\JWTGuard::hasMacro($name);
         }
                     /**
          * Flush the existing macros.
@@ -2412,8 +2368,21 @@ namespace Illuminate\Support\Facades {
          * @return void 
          * @static 
          */        public static function flushMacros()
-        {            //Method inherited from \Illuminate\Auth\SessionGuard         
-                        \Lab404\Impersonate\Guard\SessionGuard::flushMacros();
+        {
+                        \PHPOpenSourceSaver\JWTAuth\JWTGuard::flushMacros();
+        }
+                    /**
+         * Dynamically handle calls to the class.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return mixed 
+         * @throws \BadMethodCallException
+         * @static 
+         */        public static function macroCall($method, $parameters)
+        {
+                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTGuard $instance */
+                        return $instance->macroCall($method, $parameters);
         }
             }
             /**
@@ -8965,7 +8934,7 @@ namespace Illuminate\Support\Facades {
          * Assert if a mailable was sent based on a truth-test callback.
          *
          * @param string|\Closure $mailable
-         * @param callable|int|null $callback
+         * @param callable|array|string|int|null $callback
          * @return void 
          * @static 
          */        public static function assertSent($mailable, $callback = null)
@@ -8989,7 +8958,7 @@ namespace Illuminate\Support\Facades {
          * Determine if a mailable was not sent based on a truth-test callback.
          *
          * @param string|\Closure $mailable
-         * @param callable|null $callback
+         * @param callable|array|string|null $callback
          * @return void 
          * @static 
          */        public static function assertNotSent($mailable, $callback = null)
@@ -9021,7 +8990,7 @@ namespace Illuminate\Support\Facades {
          * Assert if a mailable was queued based on a truth-test callback.
          *
          * @param string|\Closure $mailable
-         * @param callable|int|null $callback
+         * @param callable|array|string|int|null $callback
          * @return void 
          * @static 
          */        public static function assertQueued($mailable, $callback = null)
@@ -9033,7 +9002,7 @@ namespace Illuminate\Support\Facades {
          * Determine if a mailable was not queued based on a truth-test callback.
          *
          * @param string|\Closure $mailable
-         * @param callable|null $callback
+         * @param callable|array|string|null $callback
          * @return void 
          * @static 
          */        public static function assertNotQueued($mailable, $callback = null)
@@ -14150,13 +14119,15 @@ namespace Illuminate\Support\Facades {
                         return $instance->macroCall($method, $parameters);
         }
                     /**
-         * 
+         * Call the given Closure with this instance then return the instance.
          *
-         * @see \Lab404\Impersonate\ImpersonateServiceProvider::registerRoutesMacro()
+         * @param \Illuminate\Routing\(callable($this):  mixed)|null  $callback
+         * @return \Illuminate\Routing\($callback is null ? \Illuminate\Support\HigherOrderTapProxy : $this)
          * @static 
-         */        public static function impersonate()
+         */        public static function tap($callback = null)
         {
-                        return \Illuminate\Routing\Router::impersonate();
+                        /** @var \Illuminate\Routing\Router $instance */
+                        return $instance->tap($callback);
         }
             }
             /**
@@ -19271,6 +19242,286 @@ namespace PHPOpenSourceSaver\JWTAuth\Facades {
             }
     }
 
+namespace SimpleSoftwareIO\QrCode\Facades {
+            /**
+     * 
+     *
+     */        class QrCode {
+                    /**
+         * Generates the QrCode.
+         *
+         * @param string $text
+         * @param string|null $filename
+         * @return void|\Illuminate\Support\HtmlString|string 
+         * @throws WriterException
+         * @throws InvalidArgumentException
+         * @static 
+         */        public static function generate($text, $filename = null)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->generate($text, $filename);
+        }
+                    /**
+         * Merges an image over the QrCode.
+         *
+         * @param string $filepath
+         * @param float $percentage
+         * @param \SimpleSoftwareIO\QrCode\SimpleSoftwareIO\QrCode\boolean|bool $absolute
+         * @return \Generator 
+         * @static 
+         */        public static function merge($filepath, $percentage = 0.2, $absolute = false)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->merge($filepath, $percentage, $absolute);
+        }
+                    /**
+         * Merges an image string with the center of the QrCode.
+         *
+         * @param string $content
+         * @param float $percentage
+         * @return \Generator 
+         * @static 
+         */        public static function mergeString($content, $percentage = 0.2)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->mergeString($content, $percentage);
+        }
+                    /**
+         * Sets the size of the QrCode.
+         *
+         * @param int $pixels
+         * @return \Generator 
+         * @static 
+         */        public static function size($pixels)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->size($pixels);
+        }
+                    /**
+         * Sets the format of the QrCode.
+         *
+         * @param string $format
+         * @return \Generator 
+         * @throws InvalidArgumentException
+         * @static 
+         */        public static function format($format)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->format($format);
+        }
+                    /**
+         * Sets the foreground color of the QrCode.
+         *
+         * @param int $red
+         * @param int $green
+         * @param int $blue
+         * @param null|int $alpha
+         * @return \Generator 
+         * @static 
+         */        public static function color($red, $green, $blue, $alpha = null)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->color($red, $green, $blue, $alpha);
+        }
+                    /**
+         * Sets the background color of the QrCode.
+         *
+         * @param int $red
+         * @param int $green
+         * @param int $blue
+         * @param null|int $alpha
+         * @return \Generator 
+         * @static 
+         */        public static function backgroundColor($red, $green, $blue, $alpha = null)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->backgroundColor($red, $green, $blue, $alpha);
+        }
+                    /**
+         * Sets the eye color for the provided eye index.
+         *
+         * @param int $eyeNumber
+         * @param int $innerRed
+         * @param int $innerGreen
+         * @param int $innerBlue
+         * @param int $outterRed
+         * @param int $outterGreen
+         * @param int $outterBlue
+         * @return \Generator 
+         * @throws InvalidArgumentException
+         * @static 
+         */        public static function eyeColor($eyeNumber, $innerRed, $innerGreen, $innerBlue, $outterRed = 0, $outterGreen = 0, $outterBlue = 0)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->eyeColor($eyeNumber, $innerRed, $innerGreen, $innerBlue, $outterRed, $outterGreen, $outterBlue);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */        public static function gradient($startRed, $startGreen, $startBlue, $endRed, $endGreen, $endBlue, $type)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->gradient($startRed, $startGreen, $startBlue, $endRed, $endGreen, $endBlue, $type);
+        }
+                    /**
+         * Sets the eye style.
+         *
+         * @param string $style
+         * @return \Generator 
+         * @throws InvalidArgumentException
+         * @static 
+         */        public static function eye($style)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->eye($style);
+        }
+                    /**
+         * Sets the style of the blocks for the QrCode.
+         *
+         * @param string $style
+         * @param float $size
+         * @return \Generator 
+         * @throws InvalidArgumentException
+         * @static 
+         */        public static function style($style, $size = 0.5)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->style($style, $size);
+        }
+                    /**
+         * Sets the encoding for the QrCode.
+         * 
+         * Possible values are
+         * ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6,
+         * ISO-8859-7, ISO-8859-8, ISO-8859-9, ISO-8859-10, ISO-8859-11,
+         * ISO-8859-12, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16,
+         * SHIFT-JIS, WINDOWS-1250, WINDOWS-1251, WINDOWS-1252, WINDOWS-1256,
+         * UTF-16BE, UTF-8, ASCII, GBK, EUC-KR.
+         *
+         * @param string $encoding
+         * @return \Generator 
+         * @static 
+         */        public static function encoding($encoding)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->encoding($encoding);
+        }
+                    /**
+         * Sets the error correction for the QrCode.
+         * 
+         * L: 7% loss.
+         * M: 15% loss.
+         * Q: 25% loss.
+         * H: 30% loss.
+         *
+         * @param string $errorCorrection
+         * @return \Generator 
+         * @static 
+         */        public static function errorCorrection($errorCorrection)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->errorCorrection($errorCorrection);
+        }
+                    /**
+         * Sets the margin of the QrCode.
+         *
+         * @param int $margin
+         * @return \Generator 
+         * @static 
+         */        public static function margin($margin)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->margin($margin);
+        }
+                    /**
+         * Fetches the Writer.
+         *
+         * @param \BaconQrCode\Renderer\ImageRenderer $renderer
+         * @return \BaconQrCode\Writer 
+         * @static 
+         */        public static function getWriter($renderer)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getWriter($renderer);
+        }
+                    /**
+         * Fetches the Image Renderer.
+         *
+         * @return \BaconQrCode\Renderer\ImageRenderer 
+         * @static 
+         */        public static function getRenderer()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getRenderer();
+        }
+                    /**
+         * Returns the Renderer Style.
+         *
+         * @return \BaconQrCode\Renderer\RendererStyle\RendererStyle 
+         * @static 
+         */        public static function getRendererStyle()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getRendererStyle();
+        }
+                    /**
+         * Fetches the formatter.
+         *
+         * @return \BaconQrCode\Renderer\Image\ImageBackEndInterface 
+         * @static 
+         */        public static function getFormatter()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getFormatter();
+        }
+                    /**
+         * Fetches the module.
+         *
+         * @return \BaconQrCode\Renderer\Module\ModuleInterface 
+         * @static 
+         */        public static function getModule()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getModule();
+        }
+                    /**
+         * Fetches the eye style.
+         *
+         * @return \BaconQrCode\Renderer\Eye\EyeInterface 
+         * @static 
+         */        public static function getEye()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getEye();
+        }
+                    /**
+         * Fetches the color fill.
+         *
+         * @return \BaconQrCode\Renderer\RendererStyle\Fill 
+         * @static 
+         */        public static function getFill()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getFill();
+        }
+                    /**
+         * Creates a RGB or Alpha channel color.
+         *
+         * @param int $red
+         * @param int $green
+         * @param int $blue
+         * @param null|int $alpha
+         * @return \BaconQrCode\Renderer\Color\ColorInterface 
+         * @static 
+         */        public static function createColor($red, $green, $blue, $alpha = null)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->createColor($red, $green, $blue, $alpha);
+        }
+            }
+    }
+
 namespace Illuminate\Support {
             /**
      * 
@@ -19397,59 +19648,6 @@ namespace Illuminate\Http {
             }
     }
 
-namespace Illuminate\Routing {
-            /**
-     * 
-     *
-     * @mixin \Illuminate\Routing\RouteRegistrar
-     */        class Router {
-                    /**
-         * 
-         *
-         * @see \Lab404\Impersonate\ImpersonateServiceProvider::registerRoutesMacro()
-         * @static 
-         */        public static function impersonate()
-        {
-                        return \Illuminate\Routing\Router::impersonate();
-        }
-            }
-            /**
-     * 
-     *
-     */        class Route {
-                    /**
-         * 
-         *
-         * @see \Livewire\Features\SupportLazyLoading\SupportLazyLoading::registerRouteMacro()
-         * @param mixed $enabled
-         * @static 
-         */        public static function lazy($enabled = true)
-        {
-                        return \Illuminate\Routing\Route::lazy($enabled);
-        }
-                    /**
-         * 
-         *
-         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
-         * @param mixed $roles
-         * @static 
-         */        public static function role($roles = [])
-        {
-                        return \Illuminate\Routing\Route::role($roles);
-        }
-                    /**
-         * 
-         *
-         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
-         * @param mixed $permissions
-         * @static 
-         */        public static function permission($permissions = [])
-        {
-                        return \Illuminate\Routing\Route::permission($permissions);
-        }
-            }
-    }
-
 namespace Illuminate\Database\Query {
             /**
      * 
@@ -19480,6 +19678,10 @@ namespace Illuminate\Database\Eloquent\Relations {
             /**
      * 
      *
+     * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+     * @template TDeclaringModel of \Illuminate\Database\Eloquent\Model
+     * @template TResult
+     * @mixin \Illuminate\Database\Eloquent\Builder<TRelatedModel>
      */        class Relation {
                     /**
          * 
@@ -19856,6 +20058,44 @@ namespace Illuminate\Testing {
          */        public static function assertGraphQLNotBroadcasted()
         {
                         return \Illuminate\Testing\TestResponse::assertGraphQLNotBroadcasted();
+        }
+            }
+    }
+
+namespace Illuminate\Routing {
+            /**
+     * 
+     *
+     */        class Route {
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportLazyLoading\SupportLazyLoading::registerRouteMacro()
+         * @param mixed $enabled
+         * @static 
+         */        public static function lazy($enabled = true)
+        {
+                        return \Illuminate\Routing\Route::lazy($enabled);
+        }
+                    /**
+         * 
+         *
+         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
+         * @param mixed $roles
+         * @static 
+         */        public static function role($roles = [])
+        {
+                        return \Illuminate\Routing\Route::role($roles);
+        }
+                    /**
+         * 
+         *
+         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
+         * @param mixed $permissions
+         * @static 
+         */        public static function permission($permissions = [])
+        {
+                        return \Illuminate\Routing\Route::permission($permissions);
         }
             }
     }
@@ -22321,7 +22561,7 @@ namespace  {
              * Create and return an un-saved model instance.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function make($attributes = [])
             {
@@ -22397,7 +22637,7 @@ namespace  {
                             /**
              * Add a basic where clause to the query.
              *
-             * @param \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression $column
+             * @param \Illuminate\Database\Eloquent\(\Closure(static):  mixed)|string|array|\Illuminate\Contracts\Database\Query\Expression  $column
              * @param mixed $operator
              * @param mixed $value
              * @param string $boolean
@@ -22411,11 +22651,11 @@ namespace  {
                             /**
              * Add a basic where clause to the query, and return the first result.
              *
-             * @param \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression $column
+             * @param \Illuminate\Database\Eloquent\(\Closure(static):  mixed)|string|array|\Illuminate\Contracts\Database\Query\Expression  $column
              * @param mixed $operator
              * @param mixed $value
              * @param string $boolean
-             * @return \Illuminate\Database\Eloquent\Model|static|null 
+             * @return \Illuminate\Database\Eloquent\TModel|null 
              * @static 
              */            public static function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
             {
@@ -22425,7 +22665,7 @@ namespace  {
                             /**
              * Add an "or where" clause to the query.
              *
-             * @param \Closure|array|string|\Illuminate\Contracts\Database\Query\Expression $column
+             * @param \Illuminate\Database\Eloquent\(\Closure(static):  mixed)|array|string|\Illuminate\Contracts\Database\Query\Expression  $column
              * @param mixed $operator
              * @param mixed $value
              * @return \Illuminate\Database\Eloquent\Builder|static 
@@ -22438,7 +22678,7 @@ namespace  {
                             /**
              * Add a basic "where not" clause to the query.
              *
-             * @param \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression $column
+             * @param \Illuminate\Database\Eloquent\(\Closure(static):  mixed)|string|array|\Illuminate\Contracts\Database\Query\Expression  $column
              * @param mixed $operator
              * @param mixed $value
              * @param string $boolean
@@ -22452,7 +22692,7 @@ namespace  {
                             /**
              * Add an "or where not" clause to the query.
              *
-             * @param \Closure|array|string|\Illuminate\Contracts\Database\Query\Expression $column
+             * @param \Illuminate\Database\Eloquent\(\Closure(static):  mixed)|array|string|\Illuminate\Contracts\Database\Query\Expression  $column
              * @param mixed $operator
              * @param mixed $value
              * @return \Illuminate\Database\Eloquent\Builder|static 
@@ -22488,7 +22728,7 @@ namespace  {
              * Create a collection of models from plain arrays.
              *
              * @param array $items
-             * @return \Illuminate\Database\Eloquent\Collection 
+             * @return \Illuminate\Database\Eloquent\Collection<int, TModel> 
              * @static 
              */            public static function hydrate($items)
             {
@@ -22500,7 +22740,7 @@ namespace  {
              *
              * @param string $query
              * @param array $bindings
-             * @return \Illuminate\Database\Eloquent\Collection 
+             * @return \Illuminate\Database\Eloquent\Collection<int, TModel> 
              * @static 
              */            public static function fromQuery($query, $bindings = [])
             {
@@ -22512,7 +22752,7 @@ namespace  {
              *
              * @param mixed $id
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null 
+             * @return \Illuminate\Database\Eloquent\($id is (\Illuminate\Contracts\Support\Arrayable<array-key, mixed>|array<mixed>) ? \Illuminate\Database\Eloquent\Collection<int, TModel> : TModel|null)
              * @static 
              */            public static function find($id, $columns = [])
             {
@@ -22524,7 +22764,7 @@ namespace  {
              *
              * @param \Illuminate\Contracts\Support\Arrayable|array $ids
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Collection 
+             * @return \Illuminate\Database\Eloquent\Collection<int, TModel> 
              * @static 
              */            public static function findMany($ids, $columns = [])
             {
@@ -22536,8 +22776,8 @@ namespace  {
              *
              * @param mixed $id
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static|static[] 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+             * @return \Illuminate\Database\Eloquent\($id is (\Illuminate\Contracts\Support\Arrayable<array-key, mixed>|array<mixed>) ? \Illuminate\Database\Eloquent\Collection<int, TModel> : TModel)
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<TModel>
              * @static 
              */            public static function findOrFail($id, $columns = [])
             {
@@ -22549,7 +22789,7 @@ namespace  {
              *
              * @param mixed $id
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @return \Illuminate\Database\Eloquent\($id is (\Illuminate\Contracts\Support\Arrayable<array-key, mixed>|array<mixed>) ? \Illuminate\Database\Eloquent\Collection<int, TModel> : TModel)
              * @static 
              */            public static function findOrNew($id, $columns = [])
             {
@@ -22559,10 +22799,14 @@ namespace  {
                             /**
              * Find a model by its primary key or call a callback.
              *
+             * @template TValue
              * @param mixed $id
-             * @param \Closure|array|string $columns
-             * @param \Closure|null $callback
-             * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|mixed 
+             * @param \Illuminate\Database\Eloquent\(\Closure():  TValue)|list<string>|string  $columns
+             * @param \Illuminate\Database\Eloquent\(\Closure():  TValue)|null  $callback
+             * @return \Illuminate\Database\Eloquent\( $id is (\Illuminate\Contracts\Support\Arrayable<array-key, mixed>|array<mixed>)
+             *     ? \Illuminate\Database\Eloquent\Collection<int, TModel>
+             *     : TModel|TValue
+             * )
              * @static 
              */            public static function findOr($id, $columns = [], $callback = null)
             {
@@ -22574,7 +22818,7 @@ namespace  {
              *
              * @param array $attributes
              * @param array $values
-             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function firstOrNew($attributes = [], $values = [])
             {
@@ -22586,7 +22830,7 @@ namespace  {
              *
              * @param array $attributes
              * @param array $values
-             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function firstOrCreate($attributes = [], $values = [])
             {
@@ -22598,7 +22842,7 @@ namespace  {
              *
              * @param array $attributes
              * @param array $values
-             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function createOrFirst($attributes = [], $values = [])
             {
@@ -22610,7 +22854,7 @@ namespace  {
              *
              * @param array $attributes
              * @param array $values
-             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function updateOrCreate($attributes, $values = [])
             {
@@ -22621,8 +22865,8 @@ namespace  {
              * Execute the query and get the first result or throw an exception.
              *
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Model|static 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+             * @return \Illuminate\Database\Eloquent\TModel 
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<TModel>
              * @static 
              */            public static function firstOrFail($columns = [])
             {
@@ -22632,9 +22876,10 @@ namespace  {
                             /**
              * Execute the query and get the first result or call a callback.
              *
-             * @param \Closure|array|string $columns
-             * @param \Closure|null $callback
-             * @return \Illuminate\Database\Eloquent\Model|static|mixed 
+             * @template TValue
+             * @param \Illuminate\Database\Eloquent\(\Closure():  TValue)|list<string>  $columns
+             * @param \Illuminate\Database\Eloquent\(\Closure():  TValue)|null  $callback
+             * @return \Illuminate\Database\Eloquent\TModel|\Illuminate\Database\Eloquent\TValue 
              * @static 
              */            public static function firstOr($columns = [], $callback = null)
             {
@@ -22645,8 +22890,8 @@ namespace  {
              * Execute the query and get the first result if it's the sole matching record.
              *
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Model 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+             * @return \Illuminate\Database\Eloquent\TModel 
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<TModel>
              * @throws \Illuminate\Database\MultipleRecordsFoundException
              * @static 
              */            public static function sole($columns = [])
@@ -22670,7 +22915,7 @@ namespace  {
              *
              * @param string|\Illuminate\Contracts\Database\Query\Expression $column
              * @return mixed 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<TModel>
              * @throws \Illuminate\Database\MultipleRecordsFoundException
              * @static 
              */            public static function soleValue($column)
@@ -22683,7 +22928,7 @@ namespace  {
              *
              * @param string|\Illuminate\Contracts\Database\Query\Expression $column
              * @return mixed 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<TModel>
              * @static 
              */            public static function valueOrFail($column)
             {
@@ -22694,7 +22939,7 @@ namespace  {
              * Execute the query as a "select" statement.
              *
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Collection|static[] 
+             * @return \Illuminate\Database\Eloquent\Collection<int, TModel> 
              * @static 
              */            public static function get($columns = [])
             {
@@ -22705,7 +22950,7 @@ namespace  {
              * Get the hydrated models without eager loading.
              *
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Model[]|static[] 
+             * @return array<int, TModel> 
              * @static 
              */            public static function getModels($columns = [])
             {
@@ -22715,8 +22960,8 @@ namespace  {
                             /**
              * Eager load the relationships for the models.
              *
-             * @param array $models
-             * @return array 
+             * @param array<int, TModel> $models
+             * @return array<int, TModel> 
              * @static 
              */            public static function eagerLoadRelations($models)
             {
@@ -22748,7 +22993,7 @@ namespace  {
                             /**
              * Get a lazy collection for the given query.
              *
-             * @return \Illuminate\Support\LazyCollection 
+             * @return \Illuminate\Support\LazyCollection<int, TModel> 
              * @static 
              */            public static function cursor()
             {
@@ -22760,7 +23005,7 @@ namespace  {
              *
              * @param string|\Illuminate\Contracts\Database\Query\Expression $column
              * @param string|null $key
-             * @return \Illuminate\Support\Collection 
+             * @return \Illuminate\Support\Collection<array-key, mixed> 
              * @static 
              */            public static function pluck($column, $key = null)
             {
@@ -22815,7 +23060,7 @@ namespace  {
              * Save a new model and return the instance.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model|$this 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function create($attributes = [])
             {
@@ -22826,7 +23071,7 @@ namespace  {
              * Save a new model and return the instance. Allow mass-assignment.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model|$this 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function forceCreate($attributes)
             {
@@ -22837,7 +23082,7 @@ namespace  {
              * Save a new model instance with mass assignment without raising model events.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model|$this 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function forceCreateQuietly($attributes = [])
             {
@@ -22915,7 +23160,7 @@ namespace  {
              * Create a new instance of the model being queried.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function newModelInstance($attributes = [])
             {
@@ -23021,7 +23266,7 @@ namespace  {
                             /**
              * Get the model instance being queried.
              *
-             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @return \Illuminate\Database\Eloquent\TModel 
              * @static 
              */            public static function getModel()
             {
@@ -23031,8 +23276,9 @@ namespace  {
                             /**
              * Set a model instance for the model being queried.
              *
-             * @param \Illuminate\Database\Eloquent\Model $model
-             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @template TModelNew of \Illuminate\Database\Eloquent\Model
+             * @param \Illuminate\Database\Eloquent\TModelNew $model
+             * @return \Illuminate\Database\Eloquent\static<TModelNew> 
              * @static 
              */            public static function setModel($model)
             {
@@ -23095,7 +23341,7 @@ namespace  {
              * Chunk the results of the query.
              *
              * @param int $count
-             * @param callable $callback
+             * @param \Illuminate\Database\Eloquent\callable(\Illuminate\Support\Collection<int, TValue>,  int): mixed  $callback
              * @return bool 
              * @static 
              */            public static function chunk($count, $callback)
@@ -23106,9 +23352,10 @@ namespace  {
                             /**
              * Run a map over each item while chunking.
              *
-             * @param callable $callback
+             * @template TReturn
+             * @param \Illuminate\Database\Eloquent\callable(TValue):  TReturn  $callback
              * @param int $count
-             * @return \Illuminate\Support\Collection 
+             * @return \Illuminate\Support\Collection<int, TReturn> 
              * @static 
              */            public static function chunkMap($callback, $count = 1000)
             {
@@ -23118,7 +23365,7 @@ namespace  {
                             /**
              * Execute a callback over each item while chunking.
              *
-             * @param callable $callback
+             * @param \Illuminate\Database\Eloquent\callable(TValue,  int): mixed  $callback
              * @param int $count
              * @return bool 
              * @throws \RuntimeException
@@ -23132,7 +23379,7 @@ namespace  {
              * Chunk the results of a query by comparing IDs.
              *
              * @param int $count
-             * @param callable $callback
+             * @param \Illuminate\Database\Eloquent\callable(\Illuminate\Support\Collection<int, TValue>,  int): mixed  $callback
              * @param string|null $column
              * @param string|null $alias
              * @return bool 
@@ -23146,7 +23393,7 @@ namespace  {
              * Chunk the results of a query by comparing IDs in descending order.
              *
              * @param int $count
-             * @param callable $callback
+             * @param \Illuminate\Database\Eloquent\callable(\Illuminate\Support\Collection<int, TValue>,  int): mixed  $callback
              * @param string|null $column
              * @param string|null $alias
              * @return bool 
@@ -23160,7 +23407,7 @@ namespace  {
              * Chunk the results of a query by comparing IDs in a given order.
              *
              * @param int $count
-             * @param callable $callback
+             * @param \Illuminate\Database\Eloquent\callable(\Illuminate\Support\Collection<int, TValue>,  int): mixed  $callback
              * @param string|null $column
              * @param string|null $alias
              * @param bool $descending
@@ -23175,7 +23422,7 @@ namespace  {
                             /**
              * Execute a callback over each item while chunking by ID.
              *
-             * @param callable $callback
+             * @param \Illuminate\Database\Eloquent\callable(TValue,  int): mixed  $callback
              * @param int $count
              * @param string|null $column
              * @param string|null $alias
@@ -23230,7 +23477,7 @@ namespace  {
              * Execute the query and get the first result.
              *
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Model|object|static|null 
+             * @return \Illuminate\Database\Eloquent\TValue|null 
              * @static 
              */            public static function first($columns = [])
             {
@@ -23241,7 +23488,7 @@ namespace  {
              * Execute the query and get the first result if it's the sole matching record.
              *
              * @param array|string $columns
-             * @return \Illuminate\Database\Eloquent\Model|object|static|null 
+             * @return \Illuminate\Database\Eloquent\TValue 
              * @throws \Illuminate\Database\RecordsNotFoundException
              * @throws \Illuminate\Database\MultipleRecordsFoundException
              * @static 
@@ -23294,7 +23541,7 @@ namespace  {
                             /**
              * Add a relationship count / exists condition to the query.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\Relation|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param string $operator
              * @param int $count
              * @param string $boolean
@@ -23310,7 +23557,7 @@ namespace  {
                             /**
              * Add a relationship count / exists condition to the query with an "or".
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param string $operator
              * @param int $count
              * @return \Illuminate\Database\Eloquent\Builder|static 
@@ -23323,7 +23570,7 @@ namespace  {
                             /**
              * Add a relationship count / exists condition to the query.
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param string $boolean
              * @param \Closure|null $callback
              * @return \Illuminate\Database\Eloquent\Builder|static 
@@ -23336,7 +23583,7 @@ namespace  {
                             /**
              * Add a relationship count / exists condition to the query with an "or".
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
              */            public static function orDoesntHave($relation)
@@ -23347,7 +23594,7 @@ namespace  {
                             /**
              * Add a relationship count / exists condition to the query with where clauses.
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param \Closure|null $callback
              * @param string $operator
              * @param int $count
@@ -23363,7 +23610,7 @@ namespace  {
              * 
              * Also load the relationship with same condition.
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param \Closure|null $callback
              * @param string $operator
              * @param int $count
@@ -23377,7 +23624,7 @@ namespace  {
                             /**
              * Add a relationship count / exists condition to the query with where clauses and an "or".
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param \Closure|null $callback
              * @param string $operator
              * @param int $count
@@ -23391,7 +23638,7 @@ namespace  {
                             /**
              * Add a relationship count / exists condition to the query with where clauses.
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param \Closure|null $callback
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -23403,7 +23650,7 @@ namespace  {
                             /**
              * Add a relationship count / exists condition to the query with where clauses and an "or".
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param \Closure|null $callback
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -23415,7 +23662,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship count / exists condition to the query.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param string $operator
              * @param int $count
@@ -23431,7 +23678,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship count / exists condition to the query with an "or".
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param string $operator
              * @param int $count
@@ -23445,7 +23692,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship count / exists condition to the query.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param string $boolean
              * @param \Closure|null $callback
@@ -23459,7 +23706,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship count / exists condition to the query with an "or".
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -23471,7 +23718,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship count / exists condition to the query with where clauses.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param \Closure|null $callback
              * @param string $operator
@@ -23486,7 +23733,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship count / exists condition to the query with where clauses and an "or".
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param \Closure|null $callback
              * @param string $operator
@@ -23501,7 +23748,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship count / exists condition to the query with where clauses.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param \Closure|null $callback
              * @return \Illuminate\Database\Eloquent\Builder|static 
@@ -23514,7 +23761,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship count / exists condition to the query with where clauses and an "or".
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param \Closure|null $callback
              * @return \Illuminate\Database\Eloquent\Builder|static 
@@ -23527,7 +23774,7 @@ namespace  {
                             /**
              * Add a basic where clause to a relationship query.
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression $column
              * @param mixed $operator
              * @param mixed $value
@@ -23541,7 +23788,7 @@ namespace  {
                             /**
              * Add an "or where" clause to a relationship query.
              *
-             * @param string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\Relation<*,  *, *>|string  $relation
              * @param \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression $column
              * @param mixed $operator
              * @param mixed $value
@@ -23555,7 +23802,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship condition to the query with a where clause.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression $column
              * @param mixed $operator
@@ -23570,7 +23817,7 @@ namespace  {
                             /**
              * Add a polymorphic relationship condition to the query with an "or where" clause.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param string|array $types
              * @param \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression $column
              * @param mixed $operator
@@ -23585,7 +23832,7 @@ namespace  {
                             /**
              * Add a morph-to relationship condition to the query.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param \Illuminate\Database\Eloquent\Model|string|null $model
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -23597,7 +23844,7 @@ namespace  {
                             /**
              * Add a not morph-to relationship condition to the query.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param \Illuminate\Database\Eloquent\Model|string $model
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -23609,7 +23856,7 @@ namespace  {
                             /**
              * Add a morph-to relationship condition to the query with an "or where" clause.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param \Illuminate\Database\Eloquent\Model|string|null $model
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -23621,7 +23868,7 @@ namespace  {
                             /**
              * Add a not morph-to relationship condition to the query with an "or where" clause.
              *
-             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
              * @param \Illuminate\Database\Eloquent\Model|string $model
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -23633,7 +23880,7 @@ namespace  {
                             /**
              * Add a "belongs to" relationship where clause to the query.
              *
-             * @param \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection<\Illuminate\Database\Eloquent\Model> $related
+             * @param \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model> $related
              * @param string|null $relationshipName
              * @param string $boolean
              * @return \Illuminate\Database\Eloquent\Builder|static 
@@ -23743,7 +23990,7 @@ namespace  {
                             /**
              * Merge the where constraints from another query to the current query.
              *
-             * @param \Illuminate\Database\Eloquent\Builder $from
+             * @param \Illuminate\Database\Eloquent\Builder<*> $from
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
              */            public static function mergeConstraintsFrom($from)
@@ -24166,15 +24413,6 @@ namespace  {
                                 return \Illuminate\Database\Eloquent\Builder::getRelationWithoutConstraintsProxy($relation);
             }
                             /**
-             * 
-             *
-             * @see \Essa\APIToolKit\MacroServiceProvider::boot()
-             * @static 
-             */            public static function dynamicPaginate()
-            {
-                                return \Illuminate\Database\Eloquent\Builder::dynamicPaginate();
-            }
-                            /**
              * Set the columns to be selected.
              *
              * @param array|mixed $columns
@@ -24188,7 +24426,7 @@ namespace  {
                             /**
              * Add a subselect expression to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @param string $as
              * @return \Illuminate\Database\Query\Builder 
              * @throws \InvalidArgumentException
@@ -24213,7 +24451,7 @@ namespace  {
                             /**
              * Makes "from" fetch from a subquery.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @param string $as
              * @return \Illuminate\Database\Query\Builder 
              * @throws \InvalidArgumentException
@@ -24259,7 +24497,7 @@ namespace  {
                             /**
              * Set the table which the query is targeting.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|\Illuminate\Contracts\Database\Query\Expression|string $table
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $table
              * @param string|null $as
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -24335,7 +24573,7 @@ namespace  {
                             /**
              * Add a subquery join clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @param string $as
              * @param \Closure|\Illuminate\Contracts\Database\Query\Expression|string $first
              * @param string|null $operator
@@ -24353,7 +24591,7 @@ namespace  {
                             /**
              * Add a lateral join clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @param string $as
              * @param string $type
              * @return \Illuminate\Database\Query\Builder 
@@ -24366,7 +24604,7 @@ namespace  {
                             /**
              * Add a lateral left join to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @param string $as
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -24406,7 +24644,7 @@ namespace  {
                             /**
              * Add a subquery left join to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @param string $as
              * @param \Closure|\Illuminate\Contracts\Database\Query\Expression|string $first
              * @param string|null $operator
@@ -24449,7 +24687,7 @@ namespace  {
                             /**
              * Add a subquery right join to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @param string $as
              * @param \Closure|\Illuminate\Contracts\Database\Query\Expression|string $first
              * @param string|null $operator
@@ -24478,7 +24716,7 @@ namespace  {
                             /**
              * Add a subquery cross join to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @param string $as
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -24988,7 +25226,7 @@ namespace  {
                             /**
              * Add an exists clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $callback
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
              * @param string $boolean
              * @param bool $not
              * @return \Illuminate\Database\Query\Builder 
@@ -25001,7 +25239,7 @@ namespace  {
                             /**
              * Add an or exists clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $callback
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
              * @param bool $not
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -25013,7 +25251,7 @@ namespace  {
                             /**
              * Add a where not exists clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $callback
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
              * @param string $boolean
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -25025,7 +25263,7 @@ namespace  {
                             /**
              * Add a where not exists clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $callback
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */            public static function orWhereNotExists($callback)
@@ -25504,7 +25742,7 @@ namespace  {
                             /**
              * Add an "order by" clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|\Illuminate\Contracts\Database\Query\Expression|string $column
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
              * @param string $direction
              * @return \Illuminate\Database\Query\Builder 
              * @throws \InvalidArgumentException
@@ -25517,7 +25755,7 @@ namespace  {
                             /**
              * Add a descending "order by" clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|\Illuminate\Contracts\Database\Query\Expression|string $column
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */            public static function orderByDesc($column)
@@ -25657,7 +25895,7 @@ namespace  {
                             /**
              * Add a union statement to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $query
              * @param bool $all
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -25669,7 +25907,7 @@ namespace  {
                             /**
              * Add a union all statement to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $query
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */            public static function unionAll($query)
@@ -25954,7 +26192,7 @@ namespace  {
              * Insert new records into the table using a subquery.
              *
              * @param array $columns
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @return int 
              * @static 
              */            public static function insertUsing($columns, $query)
@@ -25966,7 +26204,7 @@ namespace  {
              * Insert new records into the table using a subquery while ignoring errors.
              *
              * @param array $columns
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
              * @return int 
              * @static 
              */            public static function insertOrIgnoreUsing($columns, $query)
@@ -26319,6 +26557,7 @@ namespace  {
             class GoogleStaticMap extends \Mastani\GoogleStaticMap\GoogleStaticMapFacade {}
             class JWTAuth extends \PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth {}
             class JWTFactory extends \PHPOpenSourceSaver\JWTAuth\Facades\JWTFactory {}
+            class QrCode extends \SimpleSoftwareIO\QrCode\Facades\QrCode {}
     }
 
 
