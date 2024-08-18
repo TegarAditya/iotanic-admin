@@ -11,6 +11,7 @@ RUN install-php-extensions \
     hash \
     intl \
     mbstring \
+    mongodb \
     opcache \
     openssl \
     pcre \
