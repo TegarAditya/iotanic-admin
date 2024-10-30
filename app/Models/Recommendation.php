@@ -19,6 +19,7 @@ class Recommendation extends Model
     protected $fillable = [
         'public_id',
         'name',
+        'class',
         'content',
     ];
 

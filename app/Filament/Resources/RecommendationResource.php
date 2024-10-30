@@ -30,7 +30,10 @@ class RecommendationResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nama')
-                    ->columnSpanFull()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('class')
+                    ->label('Kelas')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\RichEditor::make('content')
@@ -50,6 +53,9 @@ class RecommendationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('class')
+                    ->label('Kelas')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

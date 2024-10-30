@@ -2,6 +2,9 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Measurement;
+use App\Models\Recommendation;
+use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -10,13 +13,13 @@ class StatOverview extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Unique views', '192.1k')
-                ->description('32k increase')
+            Stat::make('Total Pengguna', User::count())
+                ->description('Total penggguna aktif')
                 ->descriptionIcon('heroicon-m-arrow-trending-up'),
-            Stat::make('Bounce rate', '21%')
+            Stat::make('Total Pengukuran', Measurement::count())
                 ->description('7% decrease')
                 ->descriptionIcon('heroicon-m-arrow-trending-down'),
-            Stat::make('Average time on page', '3:12')
+            Stat::make('Penyakit Dikenali', Recommendation::count())
                 ->description('3% increase')
                 ->descriptionIcon('heroicon-m-arrow-trending-up'),
         ];
