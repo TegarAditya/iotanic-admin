@@ -9,10 +9,10 @@ type Query {
         "Search by public key."
         public_id: String
             @eq
-            @rules(apply: ["prohibits:id", "required_without:name"])
+            @rules(apply: ["prohibits:id", "required_without:class"])
 
-        "Search by name."
-        name: String @eq @rules(apply: ["prohibits:id", "required_without:id"])
+        "Search by class."
+        class: String @eq @rules(apply: ["prohibits:id", "required_without:id"])
     ): Recommendation @find
 
     "All lands"
@@ -177,6 +177,9 @@ type Recommendation {
 
     "Unique public key."
     public_id: String!
+
+    "Class of the recommendation."
+    class: String!
 
     "Name of the recommendation."
     name: String!
