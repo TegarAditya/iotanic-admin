@@ -4,6 +4,12 @@ scalar DateTime
 
 "Indicates what fields are available at the top level of a query operation."
 type Query {
+    "Find a single user by an identifying attribute."
+    user(
+        "Search by email."
+        email: String! @eq @rules(apply: ["required"])
+    ): User @find
+
     "Find a single recommendation by an identifying attribute."
     recommendation(
         "Search by public key."
@@ -18,13 +24,19 @@ type Query {
     "All lands"
     lands: [Land!]! @all
 
+    "Find single land by identifying attribute."
+    land(
+        "Land ID."
+        id: ID! @rules(apply: ["required"])
+    ): Land @find
+
     "All plants"
     plants: [Plant!]! @all
 
     "Find single plant by plant ID."
     plant(
         "Plant ID."
-        plant_id: ID! @rules(apply: ["required"])
+        id: ID! @rules(apply: ["required"])
     ): Plant @find
 
     "Find measurements by plant variety ID."
@@ -91,15 +103,29 @@ type User {
 "Land that is owned by a user."
 type Land {
     "Unique primary key."
-    owner: User! @belongsTo
+    id: ID!
+
     "Unique public key."
     public_id: String!
+
     "Name of the land."
     name: String!
+
     "Description of the land."
     description: String!
+
+    "Latitude of the land."
+    latitude: Float!
+
+    "Longitude of the land."
+    longitude: Float!
+
+    "Area of the land."
+    area: Float!
+
     "When the land was created."
     created_at: DateTime!
+
     "When the land was last updated."
     updated_at: DateTime!
 }
@@ -117,36 +143,76 @@ type Plant {
     "Description of the plant"
     description: String!
 
+    "When the plant was created"
     created_at: DateTime!
+
+    "When the plant was last updated"
     updated_at: DateTime!
+
+    "Varieties of the plant"
     varieties: [PlantVariety!]! @hasMany
 }
 
 type PlantVariety {
+    "Unique primary key"
     id: ID!
+
+    "Unique public key"
     plant: Plant! @belongsTo
+
+    "Name of the plant variety"
     name: String!
+
+    "Description of the plant variety"
     description: String!
+
+    "When the plant variety was created"
     created_at: DateTime!
+
+    "When the plant variety was last updated"
     updated_at: DateTime!
+
+    "Measurements for the plant variety"
     measurements: [Measurement!]!
 }
 
 type Period {
+    "Unique primary key."
     id: ID!
+
+    "Unique public key."
     public_id: String!
+
+    "Name of the period."
     name: String!
+
+    "Description of the period."
     description: String!
+
+    "When the period was created."
     created_at: DateTime!
+
+    "When the period was last updated."
     updated_at: DateTime!
 }
 
 type Threshold {
+    "Unique primary key."
     id: ID!
+
+    "Unique public key."
     public_id: String!
+
+    "Name of the threshold."
     name: String!
+
+    "Description of the threshold."
     description: String!
+
+    "When the threshold was created."
     created_at: DateTime!
+
+    "When the threshold was last updated."
     updated_at: DateTime!
 }
 
